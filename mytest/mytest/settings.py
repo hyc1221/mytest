@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     #'social',
     'authentication',
     'django_extensions',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
