@@ -129,5 +129,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 REST_FRAMEWORK = {
     'EXCEPTION_HANDLER': 'mytest.exceptions.core_exception_handler',
-    'NON_FIELD_ERRORS_KEY': 'error',
+    'NON_FIELD_ERRORS_KEY': 'errors',
 }
