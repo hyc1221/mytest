@@ -70,4 +70,4 @@ class User(AbstractBaseUser, PermissionsMixin):
             'exp': int(dt.strftime('%s'))
         }, 'secret', algorithm='HS256')
 
-        return jwt.decode(token, 'secret', algorithms=['HS256'])
+        return token
