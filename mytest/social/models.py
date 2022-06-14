@@ -12,7 +12,7 @@ class UserProfile(models.Model):
     class Status(models.TextChoices):
         ONLINE = 'ON', _('Online')
         OFFLINE = 'OFF', _('Offline')
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="profile")
+    user = models.OneToOneField(User, blank=True, null=True, on_delete=models.CASCADE, related_name="profile")
     first_name = models.CharField("First name", max_length=255)
     last_name = models.CharField("Last name", max_length=255)
     birth_date = models.DateField("Birth date")
