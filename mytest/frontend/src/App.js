@@ -10,7 +10,7 @@ class App extends Component {
 		super(props)
 
 		this.state = {
-			logged_in: localStorage.getItem('access') ? true : false,
+			logged_in: this.check_token(),
 			username: '',
 			displayed_form : '',
 			user_id : ''
@@ -27,10 +27,41 @@ class App extends Component {
 			})
 			.then(res => res.json())
 			.then(resp => {
+				console.log(resp);
 				this.setState({username : resp.user })
 			})
 			.catch(err => console.log(err));
 		}
+	}
+
+	check_token() {
+		if (localStorage.getItem('access')) {
+			this.refresh_token();
+			return true;
+		}
+		else return false;
+	}
+
+	refresh_token() {
+		let data = {refresh : localStorage.getItem('refresh')};
+		fetch('auth/jwt/refresh/', {
+			crossDomain : true,
+			withCredentials : true,
+			async : true,
+			method : 'POST',
+			headers : {
+				'Content-Type' : 'application/json',
+			},
+			body : JSON.stringify(data)
+		})
+		.then(response => response.json())
+		.then(json => {
+			localStorage.setItem('access', json.access);
+			console.log("token refreshed");
+		})
+		.catch(error => {
+			console.log(error)
+		})
 	}
 
 	display_form = (formName) => {
@@ -47,6 +78,7 @@ class App extends Component {
 
 	handleLogout = () => {
 		localStorage.removeItem('access');
+		localStorage.removeItem('refresh');
 		this.setState({logged_in : false, username : ''})
 	}
 
@@ -66,12 +98,13 @@ class App extends Component {
 		.then(response => response.json())
 		.then(json => {
 			localStorage.setItem('access', json.access);
+			localStorage.setItem('refresh', json.refresh);
 			this.setState({
 				logged_in : true,
 				username : data.username,
 				user_id : jwt_decode(json.access).user_id
 			})
-			console.log(jwt_decode(json.access).user_id);
+			console.log("user id : " + jwt_decode(json.access).user_id);
 		})
 		.catch(error => {
 			console.log(error)

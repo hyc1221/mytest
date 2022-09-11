@@ -100,9 +100,9 @@ class RegisterUser extends Component {
     changeHandler = (event) => {
         event.preventDefault()
             var stateObject = function() {
-              var returnObj = {};
-              returnObj['display_' + event.target.name] = true;
-                 return returnObj;
+            var returnObj = {};
+            returnObj['display_' + event.target.name] = true;
+                return returnObj;
             }();
         
             this.setState( stateObject );    
